@@ -65,6 +65,9 @@ skills-lock.json
 logo_*.png
 generated_image.png
 
+# Piper TTS test/scratch audio outputs (regenerable)
+assets/voices/*.wav
+
 # Downloaded music files (Pixabay, Freesound — not source code)
 pixabay_music_*
 
