@@ -75,6 +75,11 @@ Thumbs.db
 # Node (for remotion-composer/)
 node_modules/
 
+# Manually extracted Chrome Headless Shell (workaround for Remotion 4.0.441's
+# broken auto-download on Node 24 — see remotion-composer/remotion.config.ts).
+# ~190MB browser binary — regenerable, never commit.
+.browser-cache/
+
 # Remotion build output and copied project assets (regenerable at render time)
 remotion-composer/out/
 remotion-composer/public/*
