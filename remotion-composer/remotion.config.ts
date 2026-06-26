@@ -17,10 +17,17 @@ import {Config} from '@remotion/cli/config';
  * inside `remotion-composer/`, so this config is auto-discovered for both.
  *
  * Path resolution note: Remotion bundles this config with esbuild and `eval`s
- * it, so `__dirname` / `import.meta.url` point at the CLI's own dist directory,
- * NOT this file. Remotion DOES `process.chdir()` into the config's own
- * directory before evaluating, so `process.cwd()` is reliably this file's
- * directory (remotion-composer/). We resolve relative to that -- never an
+ * it, so `__dirname` / `import.meta.url` point at the CLI's OWN dist directory
+ * (`node_modules/@remotion/cli/dist`), NOT this file. Verified empirically:
+ * resolving the browser path from `__dirname` yields
+ * `node_modules/@remotion/cli/.browser-cache/...`, which does not exist -- so
+ * the `existsSync` guard below would miss and Remotion would silently fall back
+ * to the broken auto-download. We therefore resolve from `process.cwd()`
+ * instead. Remotion can only run with its working directory at this composer
+ * root (it requires `tsconfig.json` here and refuses to start otherwise), and
+ * every project caller (render_demo.py, tools/video/video_compose.py, the
+ * package.json scripts) invokes it from here -- so `process.cwd()` is reliably
+ * this directory (remotion-composer/). We resolve relative to that -- never an
  * absolute hardcoded path.
  *
  * REMOVE this override once Remotion's bundled Headless Shell extraction is
